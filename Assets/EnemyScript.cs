@@ -22,12 +22,12 @@ public class EnemyScript : MonoBehaviour {
 		{
 			if (powerLevel == 0) 
 			{
-				list.singleton.redEnemyList.Remove(this.transform);
+				TurretScript.singleton.redEnemyList.Remove(this.transform);
 				Destroy (gameObject);
 			}
 			else
 			{
-				list.singleton.blueEnemyList.Remove(this.transform);
+				TurretScript.singleton.blueEnemyList.Remove(this.transform);
 				Destroy (gameObject);
 			}
 		}
@@ -37,12 +37,12 @@ public class EnemyScript : MonoBehaviour {
 		if(timer > 5){
 			if (powerLevel == 0) 
 			{
-				list.singleton.redEnemyList.Remove(this.transform);
+				TurretScript.singleton.redEnemyList.Remove(this.transform);
 				Destroy (gameObject);
 			}
 			else
 			{
-				list.singleton.blueEnemyList.Remove(this.transform);
+				TurretScript.singleton.blueEnemyList.Remove(this.transform);
 				Destroy (gameObject);
 			}
 		}

@@ -1,8 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class TurretScript : MonoBehaviour {
-	
+
+	public static TurretScript singleton;
 	
 	public GameObject myProjectile;
 	public float reloadTime = 0.1f;
@@ -10,21 +12,52 @@ public class TurretScript : MonoBehaviour {
 	
 	public Transform myTarget = null;
 
+	public List<Transform> blueEnemyList = new List<Transform>();
+	public List<Transform> redEnemyList = new List<Transform>();
+
 	private Quaternion desiredRotation;
 
-	void Update () {
+	void Awake () {
+		singleton = this;
+	}
 
-		if(list.singleton.blueEnemyList.Count > 0)
-		{
-			myTarget = list.singleton.blueEnemyList[0].transform;
+	void Update () {
+		if(Input.GetKeyDown("space")){
+			if(!Globals.focusTank){
+				Globals.focusTank = true;
+			}
+			else if (Globals.focusTank) {
+				Globals.focusTank = false;
+			}
+			Debug.Log(Globals.focusTank);
 		}
-		else if(list.singleton.redEnemyList.Count > 0)
-		{
-			myTarget = list.singleton.redEnemyList[0].transform;
+		if(Globals.focusTank){
+			if(blueEnemyList.Count > 0)
+			{
+				myTarget = blueEnemyList[0].transform;
+			}
+			else if(redEnemyList.Count > 0)
+			{
+				myTarget = redEnemyList[0].transform;
+			}
+			else
+			{
+				myTarget = null;
+			}
 		}
-		else
-		{
-			myTarget = null;
+		else {
+			if(redEnemyList.Count > 0)
+			{
+				myTarget = redEnemyList[0].transform;
+			}
+			else if(blueEnemyList.Count > 0)
+			{
+				myTarget = blueEnemyList[0].transform;
+			}
+			else
+			{
+				myTarget = null;
+			}
 		}
 
 		if (myTarget!=null)
@@ -48,11 +81,11 @@ public class TurretScript : MonoBehaviour {
 		
 		if (other.gameObject.tag == "Enemy1")
 		{
-			list.singleton.redEnemyList.Add (other.gameObject.transform);
+			redEnemyList.Add (other.gameObject.transform);
 		}
 		if (other.gameObject.tag == "Enemy2")
 		{
-			list.singleton.blueEnemyList.Add (other.gameObject.transform);
+			blueEnemyList.Add (other.gameObject.transform);
 		}
 	}
 	
@@ -64,11 +97,11 @@ public class TurretScript : MonoBehaviour {
 		}
 		if (other.gameObject.tag == "Enemy1")
 		{
-			list.singleton.redEnemyList.Remove (other.gameObject.transform);
+			redEnemyList.Remove (other.gameObject.transform);
 		}
 		if (other.gameObject.tag == "Enemy2")
 		{
-			list.singleton.blueEnemyList.Remove (other.gameObject.transform);
+			blueEnemyList.Remove (other.gameObject.transform);
 		}
 	}
 	
